@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Cart</title>
+  </head>
+  <body class="m-0 p-0 overflow-x-hidden">
+    <!-- container principal -->
+
+    <nav
+      class="w-full h-16 flex justify-around items-center fixed top-0 left-0 z-50 py-2 text-white text-[1.1rem]"
+    >
+      <a class="logo" href="index.html">
+        <img class="w-[80px]" src="images/Logo Martin.png" alt="Logo" />
+      </a>
+
+      <ul class="flex gap-6">
+        <li><a class="hover:text-orange-500" href="#">Home</a></li>
+        <li><a class="hover:text-orange-500" href="#">Products</a></li>
+        <li><a class="hover:text-orange-500" href="#">About</a></li>
+        <li><a class="hover:text-orange-500" href="#">Blog</a></li>
+        <li><a class="hover:text-orange-500" href="#">Contact</a></li>
+
+        <a class="cart-container relative" href="checkout.html">
+          <img
+            class="cart w-[30px]"
+            src="images/icons/cart-icon.png"
+            alt="cart"
+          />
+          <p
+            class="js-cart-quantity absolute z-50 top-[-9px] right-2 text-orange-500 text-sm font-bold"
+          ></p>
+        </a>
+      </ul>
+    </nav>
+
+    <header
+      class="w-screen h-screen bg-[#2E2E2E] bg-cover bg-center w-96 h-64 pt-28"
+      style="background-image: url('./images/bg-image.png')"
+    >
+      <div
+        class="text w-full h-[10vh] flex flex-col items-center text-white gap-6 leading-6 font-semibold"
+      >
+        <h1 class="font-bold text-center text-2xl">
+          Welcome to our Store - Your Ultimate Destination for Manga Figurines!
+        </h1>
+
+        <p class="text-center text-md w-1/2">
+          Step into the world of your favorite manga series with our exquisite
+          collection of finely crafted figurines. Whether you're a seasoned
+          collector or a new fan, we have something to captivate every
+          enthusiast's heart.
+        </p>
+      </div>
+
+      <section class="figurines w-full h-[60vh] pt-24">
+        <div
+          class="figurines-container js-render-products w-full h-full flex justify-center"
+        ></div>
+      </section>
+    </header>
+
+    <script type="module" src="scripts/script.js"></script>
+  </body>
+</html>

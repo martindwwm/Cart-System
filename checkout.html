@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-900 shadow-md">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16"
+      >
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center">
+          <img
+            class="w-[100px]"
+            src="images/Logo Martin.png"
+            alt="Logo"
+            class="h-8 w-auto"
+          />
+        </a>
+        <!-- Panier -->
+        <div class="flex items-center">
+          <span class="text-white">Cart :</span>
+          <span
+            class="ml-2 bg-orange-500 text-white px-3 py-1 rounded-full js-render-cart-quantity"
+          ></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Panier Content -->
+    <main class="max-w-7xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+      <h1 class="text-2xl font-semibold text-orange-500 mb-6">Cart</h1>
+
+      <!-- Product List -->
+      <div class="space-y-8">
+        <!-- Product Item -->
+
+        <div
+          class="js-render-product-cart p-4 border rounded-lg shadow-sm"
+        ></div>
+      </div>
+
+      <!-- Order Summary -->
+      <div
+        class="mt-8 flex justify-between items-center p-4 bg-gray-50 border-t"
+      >
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">
+            Résumé de la commande
+          </h2>
+          <p class="text-gray-600">
+            Total : <span class="text-gray-800 font-bold">120 €</span>
+          </p>
+        </div>
+        <button
+          class="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg font-semibold"
+        >
+          Passer la commande
+        </button>
+      </div>
+    </main>
+
+    <script type="module" src="scripts/checkout.js"></script>
+  </body>
+</html>
