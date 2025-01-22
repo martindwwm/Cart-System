@@ -1,13 +1,4 @@
-export let cart = JSON.parse(localStorage.getItem("cart")) || [
-  {
-    productId: "MG-FIG-001-202300001",
-    quantity: 1,
-  },
-  {
-    productId: "MG-FIG-002-602392074",
-    quantity: 2,
-  },
-];
+export let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function saveToStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -49,13 +40,4 @@ export function removeFromCart(productId) {
   cart = newCart;
 
   saveToStorage();
-}
-
-export function updateCartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
-
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 }
