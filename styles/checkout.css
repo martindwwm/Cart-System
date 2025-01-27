@@ -1,0 +1,11 @@
+.is-editing-quantity {
+  .quantity-input,
+  .save-link-quantity {
+    display: initial;
+  }
+
+  .update-link,
+  .items-quantity {
+    display: none;
+  }
+}
