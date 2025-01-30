@@ -37,14 +37,14 @@ cart.forEach((cartItem) => {
         />
         <div>
           <h2 class="text-xl font-bold">${matchingProduct.name}</h2>
-          <p class="text-sm">Price : $${formatCurrency(
-            matchingProduct.priceCents
-          )}</p>
+          <p class="text-sm js-price-${
+            matchingProduct.id
+          }">Price : $${formatCurrency(matchingProduct.priceCents)}</p>
           <p class="text-sm items-quantity js-items-quantity-${
             matchingProduct.id
           }">Quantity : ${cartItem.quantity}</p>
-          <p class="text-gray-300">
-        total cost : $${formatCurrency(
+          <p class="text-gray-300 js-total-cost-${matchingProduct.id}">
+        Total cost : $${formatCurrency(
           matchingProduct.priceCents * cartItem.quantity
         )}
       </p>
@@ -93,7 +93,7 @@ cart.forEach((cartItem) => {
       }">Update</a>
       <input class="quantity-input js-quantity-input-${
         matchingProduct.id
-      } w-12 hidden rounded-sm bg-gray-100 text-black px-1 py-1">
+      } w-12 hidden rounded-sm bg-gray-100 text-black px-1">
       <span class="save-link-quantity js-save-link-quantity text-blue-500 pl-1 cursor-pointer hover:underline hidden" data-product-id="${
         matchingProduct.id
       }">Save</span>
@@ -107,6 +107,7 @@ cart.forEach((cartItem) => {
 
 document.querySelector(".js-render-products").innerHTML = cartSummaryHTML;
 
+// Application d'un évènement au click sur tous les liens delete, update et save
 document.querySelectorAll(".js-delete-link").forEach((link) =>
   link.addEventListener("click", () => {
     const { productId } = link.dataset;
@@ -129,7 +130,7 @@ function updateCartQuantity() {
 
   document.querySelector(
     ".js-render-cart-quantity"
-  ).innerHTML = `Cart Items : ${cartQuantity}`;
+  ).innerHTML = `${cartQuantity}`;
 }
 updateCartQuantity();
 
@@ -168,6 +169,20 @@ document.querySelectorAll(".js-save-link-quantity").forEach((link) =>
     if (itemsQuantity) {
       itemsQuantity.innerHTML = `Quantity: ${newQuantity}`;
     }
+
+    const priceCents = document.querySelector(
+      `.js-price-${productId}`
+    )?.textContent;
+
+    const cleanedPriceCents = priceCents?.replace(/[^0-9]/g, "").trim();
+
+    const priceCentsValue = Number(cleanedPriceCents);
+
+    const newTotalCost = formatCurrency(priceCentsValue * newQuantity);
+
+    document.querySelector(
+      `.js-total-cost-${productId}`
+    ).innerHTML = `Total cost : ${newTotalCost}`;
 
     const container = document.querySelector(
       `.js-render-products-container-${productId}`
