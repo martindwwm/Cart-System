@@ -2,10 +2,12 @@ export let cart = JSON.parse(localStorage.getItem("cart")) || [
   {
     productId: "MG-FIG-001-202300001",
     quantity: 2,
+    deliveryOptionId: "1",
   },
   {
     productId: "MG-FIG-002-602392074",
     quantity: 1,
+    deliveryOptionId: "2",
   },
 ];
 
@@ -32,6 +34,7 @@ export function addToCart(productId) {
     cart.push({
       productId,
       quantity,
+      deliveryOptionId: "1",
     });
   }
 

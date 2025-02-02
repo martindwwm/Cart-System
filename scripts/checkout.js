@@ -4,8 +4,10 @@ import {
   calculateCartQuantity,
   updateQuantity,
 } from "../data/cart.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 let cartSummaryHTML = "";
 
@@ -51,40 +53,8 @@ cart.forEach((cartItem) => {
         </div>
       </div>
       <div>
-        <p class="font-bold mb-2">Shipping Options:</p>
-        <div class="mb-2">
-          <input
-            type="radio"
-            id="${matchingProduct.id}_shipping1"
-            name="shipping_${matchingProduct.id}"
-            class="mr-2"
-          />
-          <label for="${matchingProduct.id}_shipping1"
-            >Monday, January 23rd - $5.00</label
-          >
-        </div>
-        <div class="mb-2">
-          <input
-            type="radio"
-            id="${matchingProduct.id}_shipping2"
-            name="shipping_${matchingProduct.id}"
-            class="mr-2"
-          />
-          <label for="${matchingProduct.id}_shipping2"
-            >Wednesday, January 25th - $3.00</label
-          >
-        </div>
-        <div>
-          <input
-            type="radio"
-            id="${matchingProduct.id}_shipping3"
-            name="shipping_${matchingProduct.id}"
-            class="mr-2"
-          />
-          <label for="${matchingProduct.id}_shipping3"
-            >Friday, January 27th - $2.00</label
-          >
-        </div>
+      <p class="font-bold mb-2">Shipping Options:</p>
+        ${deliveryOptionsHtml(matchingProduct, cartItem)}
       </div>
     </div>
     <div>
@@ -104,6 +74,39 @@ cart.forEach((cartItem) => {
   </div>
   `;
 });
+
+function deliveryOptionsHtml(matchingProduct, cartItem) {
+  let html = "";
+
+  deliveryOptions.forEach((deliveryOption) => {
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+    const dateString = deliveryDate.format("dddd, MMMM D");
+    const priceString =
+      deliveryOption.priceCents === 0
+        ? "FREE"
+        : `$${formatCurrency(deliveryOption.priceCents)}`;
+
+    const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
+
+    html += `
+        <div class="mb-2">
+          <input
+            type="radio"
+            ${isChecked ? "checked" : ""}
+            id="${matchingProduct.id}_shipping1"
+            name="shipping_${matchingProduct.id}"
+            class="mr-2"
+          />
+          <label for="${matchingProduct.id}_shipping1"
+            >${dateString} - ${priceString}</label
+          >
+        </div>
+    `;
+  });
+
+  return html;
+}
 
 document.querySelector(".js-render-products").innerHTML = cartSummaryHTML;
 
