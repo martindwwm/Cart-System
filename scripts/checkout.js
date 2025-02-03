@@ -14,10 +14,9 @@ let cartSummaryHTML = "";
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
 
-  // Trouver le produit correspondant
   const matchingProduct = products.find((product) => product.id === productId);
 
-  // Vérifier si le produit correspondant existe
+  // Check if the product exists
   if (!matchingProduct) {
     console.error(
       `Product with ID ${productId} not found in the product list.`
@@ -25,51 +24,84 @@ cart.forEach((cartItem) => {
     return;
   }
 
-  // Générer le HTML pour le produit
+  // Generate HTML for the product
   cartSummaryHTML += `
   <div class="js-render-products-container-${
     matchingProduct.id
-  } bg-gray-900 p-4 rounded-lg shadow text-gray-300">
-    <div class="flex justify-between items-center mb-4">
-      <div class="flex items-center">
+  } bg-gray-900 p-4 rounded-md shadow text-gray-300 mb-5">
+
+    <!-- Delivery Date -->
+    <h2 class="text-green-600 text-xl font-bold mb-4">
+      Delivery date: Tuesday, June 21
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+
+      <!-- Colonne 1 : Produit et détails -->
+      <div class="flex gap-4">
+        <!-- Product Image -->
         <img
           src="${matchingProduct.image}"
           alt="${matchingProduct.name}"
-          class="h-24 w-16 object-cover mr-4"
+          class="h-36 w-36 object-cover rounded-md"
         />
+
+        <!-- Product Details -->
         <div>
-          <h2 class="text-xl font-bold">${matchingProduct.name}</h2>
-          <p class="text-sm js-price-${
+          <h2 class="text-lg font-bold">${matchingProduct.name}</h2>
+          <p class="text-md text-red-600 font-bold mt-1 mb-2 js-price-${
             matchingProduct.id
-          }">Price : $${formatCurrency(matchingProduct.priceCents)}</p>
-          <p class="text-sm items-quantity js-items-quantity-${
+          }">
+            $${formatCurrency(matchingProduct.priceCents)}
+          </p>
+
+          <!-- Quantity Management -->
+          <div class="flex items-center gap-2 text-md">
+            <p class="items-quantity js-items-quantity-${
+              matchingProduct.id
+            }">Quantity: ${cartItem.quantity}</p>
+
+            <!-- New quantity input -->
+            <input class="quantity-input js-quantity-input-${
+              matchingProduct.id
+            } w-12 hidden rounded-sm bg-gray-100 text-black px-1">
+
+            <!-- Update link -->
+            <a href="#" class="text-blue-500 hover:text-red-500 update-link js-update-link"
+              data-product-id="${matchingProduct.id}">
+              Update
+            </a>
+
+            <!-- Save link -->
+            <span class="save-link-quantity js-save-link-quantity text-blue-500 pl-1 cursor-pointer hover:text-red-500 hidden" data-product-id="${
+              matchingProduct.id
+            }">Save
+            </span>
+
+            <!-- Delete link -->
+            <a href="#" class="text-blue-500 hover:text-red-500 js-delete-link"
+              data-product-id="${matchingProduct.id}">
+              Delete
+            </a>
+          </div>
+
+          <!-- Total Cost -->
+          <p class="text-gray-300 text-md mt-2 js-total-cost-${
             matchingProduct.id
-          }">Quantity : ${cartItem.quantity}</p>
-          <p class="text-gray-300 js-total-cost-${matchingProduct.id}">
-        Total cost : $${formatCurrency(
-          matchingProduct.priceCents * cartItem.quantity
-        )}
-      </p>
+          }">
+            Total cost: $${formatCurrency(
+              matchingProduct.priceCents * cartItem.quantity
+            )}
+          </p>
         </div>
       </div>
+
+      <!-- Colonne 2 : Shipping option -->
       <div>
-      <p class="font-bold mb-2">Shipping Options:</p>
+        <p class="font-bold text-lg mb-3">Choose a delivery option:</p>
         ${deliveryOptionsHtml(matchingProduct, cartItem)}
       </div>
-    </div>
-    <div>
-      <a href="#" class="update-link text-blue-500 hover:underline js-update-link pr-1" data-product-id="${
-        matchingProduct.id
-      }">Update</a>
-      <input class="quantity-input js-quantity-input-${
-        matchingProduct.id
-      } w-12 hidden rounded-sm bg-gray-100 text-black px-1">
-      <span class="save-link-quantity js-save-link-quantity text-blue-500 pl-1 cursor-pointer hover:underline hidden" data-product-id="${
-        matchingProduct.id
-      }">Save</span>
-      <a href="#" class="js-delete-link text-red-500 hover:underline ml-4" data-product-id="${
-        matchingProduct.id
-      }">Delete</a>
+
     </div>
   </div>
   `;
@@ -90,18 +122,27 @@ function deliveryOptionsHtml(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html += `
-        <div class="mb-2">
-          <input
-            type="radio"
-            ${isChecked ? "checked" : ""}
-            id="${matchingProduct.id}_shipping1"
-            name="shipping_${matchingProduct.id}"
-            class="mr-2"
-          />
-          <label for="${matchingProduct.id}_shipping1"
-            >${dateString} - ${priceString}</label
-          >
+        <div class="flex items-center gap-3 mb-2">
+        <!-- Input radio -->
+        <input
+          type="radio"
+          ${isChecked ? "checked" : ""}
+          id="${matchingProduct.id}_shipping_${deliveryOption.id}"
+          name="shipping_${matchingProduct.id}"
+          class="cursor-pointer w-5 h-5 accent-blue-600"
+        />
+
+        <!-- Texte aligné avec la radio -->
+        <div>
+          <label for="${matchingProduct.id}_shipping_${deliveryOption.id}" 
+            class="font-bold text-lg text-green-600">
+            ${dateString}
+          </label>
+          <p class="text-gray-300 text-md">
+          ${priceString} - Shipping
+          </p>
         </div>
+      </div>
     `;
   });
 
@@ -185,7 +226,7 @@ document.querySelectorAll(".js-save-link-quantity").forEach((link) =>
 
     document.querySelector(
       `.js-total-cost-${productId}`
-    ).innerHTML = `Total cost : ${newTotalCost}`;
+    ).innerHTML = `Total cost : $${newTotalCost}`;
 
     const container = document.querySelector(
       `.js-render-products-container-${productId}`
