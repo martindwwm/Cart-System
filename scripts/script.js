@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { formatCurrency } from "../scripts/utils/money.js";
+import formatCurrency from "../scripts/utils/money.js";
 import { addToCart, cart, calculateCartQuantity } from "../data/cart.js";
 
 let productHTML = "";

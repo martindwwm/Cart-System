@@ -3,10 +3,11 @@ import {
   removeFromCart,
   calculateCartQuantity,
   updateQuantity,
+  updateDeliveryOption,
 } from "../data/cart.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
+import formatCurrency from "./utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 let cartSummaryHTML = "";
@@ -24,6 +25,20 @@ cart.forEach((cartItem) => {
     return;
   }
 
+  const deliveryOptionId = cartItem.deliveryOptionId;
+
+  let deliveryOption;
+
+  deliveryOptions.forEach((option) => {
+    if (option.id === deliveryOptionId) {
+      deliveryOption = option;
+    }
+  });
+
+  const today = dayjs();
+  const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+  const dateString = deliveryDate.format("dddd, MMMM D");
+
   // Generate HTML for the product
   cartSummaryHTML += `
   <div class="js-render-products-container-${
@@ -32,7 +47,7 @@ cart.forEach((cartItem) => {
 
     <!-- Delivery Date -->
     <h2 class="text-green-600 text-xl font-bold mb-4">
-      Delivery date: Tuesday, June 21
+      Delivery date: ${dateString}
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -122,7 +137,9 @@ function deliveryOptionsHtml(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
     html += `
-        <div class="flex items-center gap-3 mb-2">
+        <div class="flex items-center gap-3 mb-2 js-delivery-option"
+        data-product-id="${matchingProduct.id}"
+        data-delivery-option-id="${deliveryOption.id}">
         <!-- Input radio -->
         <input
           type="radio"
@@ -236,3 +253,11 @@ document.querySelectorAll(".js-save-link-quantity").forEach((link) =>
     updateCartQuantity();
   })
 );
+
+document.querySelectorAll(".js-delivery-option").forEach((element) => {
+  element.addEventListener("click", () => {
+    const { productId, deliveryOptionId } = element.dataset;
+
+    updateDeliveryOption(productId, deliveryOptionId);
+  });
+});
