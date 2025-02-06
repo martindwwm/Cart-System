@@ -21,3 +21,9 @@ export const products = [
     priceCents: 7999,
   },
 ];
+
+export function getProduct(productId) {
+  const matchingProduct = products.find((product) => product.id === productId);
+
+  return matchingProduct;
+}
