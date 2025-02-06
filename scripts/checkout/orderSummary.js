@@ -81,10 +81,10 @@ export function renderOrderSummary() {
             } w-12 hidden rounded-sm bg-gray-100 text-black px-1">
 
             <!-- Update link -->
-            <a href="#" class="text-blue-500 hover:text-red-500 update-link js-update-link"
+            <span class="text-blue-500 hover:text-red-500 cursor-pointer update-link js-update-link"
               data-product-id="${matchingProduct.id}">
               Update
-            </a>
+            </span>
 
             <!-- Save link -->
             <span class="save-link-quantity js-save-link-quantity text-blue-500 pl-1 cursor-pointer hover:text-red-500 hidden" data-product-id="${
@@ -93,10 +93,10 @@ export function renderOrderSummary() {
             </span>
 
             <!-- Delete link -->
-            <a href="#" class="text-blue-500 hover:text-red-500 js-delete-link"
+            <span class="text-blue-500 cursor-pointer hover:text-red-500 js-delete-link"
               data-product-id="${matchingProduct.id}">
               Delete
-            </a>
+            </span>
           </div>
         </div>
       </div>
