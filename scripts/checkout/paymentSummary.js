@@ -52,7 +52,7 @@ export function renderPaymentSummary() {
             <div class="flex justify-between mb-4">
               <span>Estimated tax (10%):</span>
               <span class="font-semibold">
-              $${formatCurrency(totalCents)}
+              $${formatCurrency(taxCents)}
               </span>
             </div>
 
