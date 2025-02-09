@@ -18,13 +18,17 @@ export function renderPaymentSummary() {
   const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
   const taxCents = totalBeforeTaxCents * 0.1;
   const totalCents = totalBeforeTaxCents + taxCents;
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
 
   const paymentSummaryHTML = `
   <div class="bg-gray-900 text-gray-200 p-6 rounded-lg shadow-md mb-6">
             <h3 class="text-xl font-bold mb-4">Order Summary</h3>
 
             <div class="flex justify-between mb-2">
-              <spa>Items (3):</spa classn>
+              <span>Items (${cartQuantity}):</span>
               <span class="font-semibold">
               $${formatCurrency(productPriceCents)}
               </span>
