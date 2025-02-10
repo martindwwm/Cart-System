@@ -163,14 +163,7 @@ export function renderOrderSummary() {
       const { productId } = link.dataset;
       removeFromCart(productId);
 
-      const container = document.querySelector(
-        `.js-render-products-container-${productId} `
-      );
-
-      if (container) {
-        container.remove();
-      }
-
+      renderOrderSummary();
       updateCartQuantity();
       renderPaymentSummary();
     })
