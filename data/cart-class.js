@@ -1,23 +1,22 @@
 class Cart {
   constructor(localStorageKey) {
     this.localStorageKey = localStorageKey;
+    this.cartItems = JSON.parse(localStorage.getItem(localStorageKey)) || [
+      {
+        productId: "MG-FIG-001-202300001",
+        quantity: 2,
+        deliveryOptionId: "1",
+      },
+      {
+        productId: "MG-FIG-002-602392074",
+        quantity: 1,
+        deliveryOptionId: "2",
+      },
+    ];
   }
 
-  cartItems = JSON.parse(localStorage.getItem(localStorageKey)) || [
-    {
-      productId: "MG-FIG-001-202300001",
-      quantity: 2,
-      deliveryOptionId: "1",
-    },
-    {
-      productId: "MG-FIG-002-602392074",
-      quantity: 1,
-      deliveryOptionId: "2",
-    },
-  ];
-
   saveToStorage() {
-    localStorage.setItem(localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productId) {
@@ -98,3 +97,6 @@ class Cart {
 
 const cart = new Cart("cart-oop");
 const businessCart = new Cart("cart-business");
+
+console.log(cart);
+console.log(businessCart);
