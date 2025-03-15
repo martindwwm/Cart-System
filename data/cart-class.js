@@ -1,7 +1,10 @@
 class Cart {
+  #localStorageKey;
   constructor(localStorageKey) {
-    this.localStorageKey = localStorageKey;
-    this.cartItems = JSON.parse(localStorage.getItem(localStorageKey)) || [
+    this.#localStorageKey = localStorageKey;
+    this.cartItems = JSON.parse(
+      localStorage.getItem(this.#localStorageKey)
+    ) || [
       {
         productId: "MG-FIG-001-202300001",
         quantity: 2,
@@ -16,7 +19,7 @@ class Cart {
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
 
   addToCart(productId) {
