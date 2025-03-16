@@ -66,7 +66,7 @@ export function renderOrderSummary() {
           <p class="text-md text-red-600 font-bold mt-2 mb-2 js-price-${
             matchingProduct.id
           }">
-            $${formatCurrency(matchingProduct.priceCents)}
+            ${matchingProduct.getPrice()}
           </p>
 
           <!-- Quantity Management -->

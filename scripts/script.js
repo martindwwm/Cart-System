@@ -24,7 +24,7 @@ products.forEach((product) => {
             <div class="figurine-rating flex gap-1">
               <img
                 class="w-[100px]"
-                src="images/ratings/rating-${product.ratings.stars * 10}.png"
+                src="${product.getStarsUrl()}"
                 alt="5 stars"
               />
 
@@ -32,7 +32,7 @@ products.forEach((product) => {
             </div>
 
             <div class="figurine-price text-white text-lg font-bold">
-              <p>$${formatCurrency(product.priceCents)}</p>
+              <p>${product.getPrice()}</p>
             </div>
 
             <div class="quantity-selector">

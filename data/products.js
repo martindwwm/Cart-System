@@ -1,3 +1,29 @@
+import formatCurrency from "../scripts/utils/money.js";
+
+class Product {
+  id;
+  image;
+  name;
+  ratings;
+  priceCents;
+
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.ratings = productDetails.ratings;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsUrl() {
+    return `images/ratings/rating-${this.ratings.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+}
+
 export const products = [
   {
     id: "MG-FIG-001-202300001",
@@ -20,7 +46,9 @@ export const products = [
     ratings: { stars: 5, count: 5300 },
     priceCents: 7999,
   },
-];
+].map((productDetails) => {
+  return new Product(productDetails);
+});
 
 export function getProduct(productId) {
   const matchingProduct = products.find((product) => product.id === productId);
